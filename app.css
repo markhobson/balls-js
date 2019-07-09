@@ -3,7 +3,7 @@ body {
 }
 
 #app {
-	position: absolute;
+	display: block;
 	width: 100vw;
 	height: 100vh;
 }
