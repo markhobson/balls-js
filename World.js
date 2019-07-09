@@ -27,7 +27,7 @@ function World(canvas, objects) {
 
 	function animate() {
 		this.objects.forEach(function (object) {
-			object.animate(this.context);
+			object.tick(this.context);
 		}, this);
 	}
 }

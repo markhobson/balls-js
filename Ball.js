@@ -7,7 +7,7 @@ function Ball(x, y, r, dx, dy, color) {
 	self.dy = dy;
 	self.color = color;
 	self.plot = plot;
-	self.animate = animate;
+	self.tick = tick;
 
 	function plot(context) {
 		context.fillStyle = this.color;
@@ -16,7 +16,7 @@ function Ball(x, y, r, dx, dy, color) {
 		context.fill();
 	}
 
-	function animate(context) {
+	function tick(context) {
 		this.x += this.dx;
 		this.y += this.dy;
 
