@@ -1,11 +1,11 @@
 (function (World, Ball) {	
 	function App(canvas) {
 		var self = this;
-		self.world = new World(canvas, newBalls(canvas));
+		self.world = new World(canvas, newBalls(10, canvas));
 		self.run = run;
 		
-		function newBalls(canvas) {
-			var balls = new Array(10);
+		function newBalls(n, canvas) {
+			var balls = new Array(n);
 			for (var i = 0; i < balls.length; i++) {
 				balls[i] = newBall(canvas);
 			}
