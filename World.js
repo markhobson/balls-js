@@ -2,21 +2,26 @@ function World(canvas, objects) {
 	var self = this;
 	self.context = canvas.getContext('2d');
 	self.objects = objects;
+	self.timestamp = null;
 	self.run = run;
 	self.tick = tick;
 	self.resize = resize;
 	self.plot = plot;
 	self.tickObjects = tickObjects;
 
-	function run(fps) {
-		var dt = 1000 / fps;
-		setInterval(this.tick.bind(this), dt, dt);
+	function run() {
+		requestAnimationFrame(this.tick.bind(this));
 	}
 
-	function tick(dt) {
+	function tick(timestamp) {
+		var dt = timestamp - (this.timestamp || timestamp);
+		this.timestamp = timestamp;
+		
 		this.resize();
 		this.plot();
 		this.tickObjects(dt);
+		
+		this.run();
 	}
 	
 	function resize() {
