@@ -1,32 +1,24 @@
 (function (World, Ball) {	
-	function App(canvas) {
-		var self = this;
-		self.world = new World(canvas, randomBalls(10, canvas));
-		self.run = run;
+	var canvas = document.getElementById('app');
+	var objects = randomBalls(10, canvas);
+	new World(canvas, objects).run();
 		
-		function randomBalls(n, canvas) {
-			var balls = new Array(n);
-			for (var i = 0; i < balls.length; i++) {
-				balls[i] = randomBall(canvas);
-			}
-			return balls;
+	function randomBalls(n, canvas) {
+		var balls = new Array(n);
+		for (var i = 0; i < balls.length; i++) {
+			balls[i] = randomBall(canvas);
 		}
-		
-		function randomBall(canvas) {
-			var r = 25 + Math.random() * 25;
-			var x = r + Math.random() * (canvas.width - 2 * r);
-			var y = r + Math.random() * (canvas.height - 2 * r);
-			var dx = 10 * Math.random() - 5;
-			var dy = 10 * Math.random() - 5;
-			var color = '#' + parseInt(Math.random() * 0xFFFFFF).toString(16);
-			
-			return new Ball(x, y, r, dx, dy, color);
-		}
-		
-		function run() {
-			this.world.run();
-		}
+		return balls;
 	}
 	
-	new App(document.getElementById('app')).run();
+	function randomBall(canvas) {
+		var r = 25 + Math.random() * 25;
+		var x = r + Math.random() * (canvas.width - 2 * r);
+		var y = r + Math.random() * (canvas.height - 2 * r);
+		var dx = 10 * Math.random() - 5;
+		var dy = 10 * Math.random() - 5;
+		var color = '#' + parseInt(Math.random() * 0xFFFFFF).toString(16);
+		
+		return new Ball(x, y, r, dx, dy, color);
+	}
 })(World, Ball);
