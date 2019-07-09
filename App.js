@@ -1,18 +1,18 @@
 (function (World, Ball) {	
 	function App(canvas) {
 		var self = this;
-		self.world = new World(canvas, newBalls(10, canvas));
+		self.world = new World(canvas, randomBalls(10, canvas));
 		self.run = run;
 		
-		function newBalls(n, canvas) {
+		function randomBalls(n, canvas) {
 			var balls = new Array(n);
 			for (var i = 0; i < balls.length; i++) {
-				balls[i] = newBall(canvas);
+				balls[i] = randomBall(canvas);
 			}
 			return balls;
 		}
 		
-		function newBall(canvas) {
+		function randomBall(canvas) {
 			var r = 25 + Math.random() * 25;
 			var x = r + Math.random() * (canvas.width - 2 * r);
 			var y = r + Math.random() * (canvas.height - 2 * r);
