@@ -7,8 +7,9 @@ function World(canvas, objects) {
 	self.plot = plot;
 	self.tickObjects = tickObjects;
 
-	function run() {
-		setInterval(this.tick.bind(this), 10);
+	function run(fps) {
+		var dt = 1000 / fps;
+		setInterval(this.tick.bind(this), dt);
 	}
 
 	function tick() {

@@ -1,7 +1,7 @@
 (function (World, Ball) {
 	var canvas = document.getElementById('app');
 	var objects = randomBalls(10, canvas);
-	new World(canvas, objects).run();
+	new World(canvas, objects).run(100);
 
 	function randomBalls(n, canvas) {
 		var balls = new Array(n);
