@@ -1,7 +1,7 @@
-function World(canvas, balls) {
+function World(canvas, objects) {
 	var self = this;
 	self.context = canvas.getContext('2d');
-	self.balls = balls;
+	self.objects = objects;
 	self.run = run;
 	self.tick = tick;
 	self.plot = plot;
@@ -20,14 +20,14 @@ function World(canvas, balls) {
 		var canvas = this.context.canvas;
 		this.context.clearRect(0, 0, canvas.width, canvas.height);
 		
-		this.balls.forEach(function (ball) {
-			ball.plot(this.context);				
+		this.objects.forEach(function (object) {
+			object.plot(this.context);				
 		}, this);
 	}
 	
 	function animate() {
-		this.balls.forEach(function (ball) {
-			ball.animate(this.context);	
+		this.objects.forEach(function (object) {
+			object.animate(this.context);	
 		}, this);
 	}
 }
