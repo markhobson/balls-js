@@ -5,7 +5,7 @@ function World(canvas, objects) {
 	self.run = run;
 	self.tick = tick;
 	self.plot = plot;
-	self.animate = animate;
+	self.tickObjects = tickObjects;
 
 	function run() {
 		setInterval(this.tick.bind(this), 10);
@@ -13,7 +13,7 @@ function World(canvas, objects) {
 
 	function tick() {
 		this.plot();
-		this.animate();
+		this.tickObjects();
 	}
 
 	function plot() {
@@ -25,7 +25,7 @@ function World(canvas, objects) {
 		}, this);
 	}
 
-	function animate() {
+	function tickObjects() {
 		this.objects.forEach(function (object) {
 			object.tick(this.context);
 		}, this);
