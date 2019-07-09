@@ -4,6 +4,7 @@ function World(canvas, objects) {
 	self.objects = objects;
 	self.run = run;
 	self.tick = tick;
+	self.resize = resize;
 	self.plot = plot;
 	self.tickObjects = tickObjects;
 
@@ -13,8 +14,15 @@ function World(canvas, objects) {
 	}
 
 	function tick() {
+		this.resize();
 		this.plot();
 		this.tickObjects();
+	}
+	
+	function resize() {
+		var canvas = this.context.canvas;
+		canvas.width = canvas.clientWidth;
+		canvas.height = canvas.clientHeight;
 	}
 
 	function plot() {
