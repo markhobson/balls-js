@@ -22,13 +22,31 @@
 			this.y += this.dy;
 			
 			var canvas = context.canvas;
+			var bounds = {
+				x0: this.r,
+				y0: this.r,
+				x1: canvas.width - this.r,
+				y1: canvas.height - this.r
+			};
 			
-			if (this.x > canvas.width - this.r || this.x < this.r) {
+			if (this.x < bounds.x0) {
 				this.dx = -this.dx;
+				this.x = 2 * bounds.x0 - this.x;
 			}
 			
-			if (this.y > canvas.height - this.r || this.y < this.r) {
+			if (this.x > bounds.x1) {
+				this.dx = -this.dx;
+				this.x = 2 * bounds.x1 - this.x;
+			}
+			
+			if (this.y < bounds.y0) {
 				this.dy = -this.dy;
+				this.y = 2 * bounds.y0 - this.y;
+			}
+			
+			if (this.y > bounds.y1) {
+				this.dy = -this.dy;
+				this.y = 2 * bounds.y1 - this.y;
 			}
 		}
 	}
