@@ -16,9 +16,9 @@ function Ball(x, y, r, dx, dy, color) {
 		context.fill();
 	}
 
-	function tick(context) {
-		this.x += this.dx;
-		this.y += this.dy;
+	function tick(dt, context) {
+		this.x += this.dx * dt;
+		this.y += this.dy * dt;
 
 		var canvas = context.canvas;
 		var bounds = {

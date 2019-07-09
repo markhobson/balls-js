@@ -15,8 +15,8 @@
 		var r = 25 + Math.random() * 25;
 		var x = r + Math.random() * (canvas.width - 2 * r);
 		var y = r + Math.random() * (canvas.height - 2 * r);
-		var dx = 10 * Math.random() - 5;
-		var dy = 10 * Math.random() - 5;
+		var dx = Math.random() - 0.5;
+		var dy = Math.random() - 0.5;
 		var color = '#' + parseInt(Math.random() * 0xFFFFFF).toString(16);
 
 		return new Ball(x, y, r, dx, dy, color);

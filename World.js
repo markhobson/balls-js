@@ -10,13 +10,13 @@ function World(canvas, objects) {
 
 	function run(fps) {
 		var dt = 1000 / fps;
-		setInterval(this.tick.bind(this), dt);
+		setInterval(this.tick.bind(this), dt, dt);
 	}
 
-	function tick() {
+	function tick(dt) {
 		this.resize();
 		this.plot();
-		this.tickObjects();
+		this.tickObjects(dt);
 	}
 	
 	function resize() {
@@ -34,9 +34,9 @@ function World(canvas, objects) {
 		}, this);
 	}
 
-	function tickObjects() {
+	function tickObjects(dt) {
 		this.objects.forEach(function (object) {
-			object.tick(this.context);
+			object.tick(dt, this.context);
 		}, this);
 	}
 }
