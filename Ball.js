@@ -17,13 +17,9 @@ function Ball(x, y, r, dx, dy, color) {
 		context.fill();
 	}
 
-	function tick(dt, context) {
+	function tick(dt) {
 		this.x += this.dx * dt;
 		this.y += this.dy * dt;
-
-		var canvas = context.canvas;
-		var rectangle = {x: 0, y: 0, width: canvas.width, height: canvas.height};
-		this.checkRectangleCollision(rectangle);
 	}
 	
 	function checkRectangleCollision(rectangle) {
