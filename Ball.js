@@ -8,6 +8,7 @@ function Ball(x, y, r, dx, dy, color) {
 	self.color = color;
 	self.plot = plot;
 	self.tick = tick;
+	self.checkRectangleCollision = checkRectangleCollision;
 
 	function plot(context) {
 		context.fillStyle = this.color;
@@ -22,6 +23,10 @@ function Ball(x, y, r, dx, dy, color) {
 
 		var canvas = context.canvas;
 		var rectangle = {x: 0, y: 0, width: canvas.width, height: canvas.height};
+		this.checkRectangleCollision(rectangle);
+	}
+	
+	function checkRectangleCollision(rectangle) {
 		var bounds = {
 			x0: rectangle.x + this.r,
 			y0: rectangle.y + this.r,
@@ -47,6 +52,6 @@ function Ball(x, y, r, dx, dy, color) {
 		if (this.y > bounds.y1) {
 			this.dy = -this.dy;
 			this.y = 2 * bounds.y1 - this.y;
-		}
+		}		
 	}
 }
