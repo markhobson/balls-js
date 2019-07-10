@@ -21,11 +21,12 @@ function Ball(x, y, r, dx, dy, color) {
 		this.y += this.dy * dt;
 
 		var canvas = context.canvas;
+		var rectangle = {x: 0, y: 0, width: canvas.width, height: canvas.height};
 		var bounds = {
-			x0: this.r,
-			y0: this.r,
-			x1: canvas.width - this.r,
-			y1: canvas.height - this.r
+			x0: rectangle.x + this.r,
+			y0: rectangle.y + this.r,
+			x1: rectangle.x + rectangle.width - this.r,
+			y1: rectangle.y + rectangle.height - this.r
 		};
 
 		if (this.x < bounds.x0) {
