@@ -54,8 +54,13 @@ function World(canvas, objects) {
 		var canvas = this.context.canvas;
 		var rectangle = {x: 0, y: 0, width: canvas.width, height: canvas.height};
 		
-		this.objects.forEach(function (object) {
+		for (var i = 0; i < objects.length; i++) {
+			var object = objects[i];
 			object.checkRectangleCollision(rectangle);
-		});
+
+			for (var j = i + 1; j < objects.length; j++) {
+				object.checkBallCollision(objects[j]);
+			}
+		}
 	}
 }
