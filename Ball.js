@@ -1,10 +1,8 @@
 function Ball(x, y, r, dx, dy, color) {
 	var self = this;
-	self.x = x;
-	self.y = y;
+	self.position = new Vector(x, y);
 	self.r = r;
-	self.dx = dx;
-	self.dy = dy;
+	self.velocity = new Vector(dx, dy);
 	self.color = color;
 	self.plot = plot;
 	self.tick = tick;
@@ -15,13 +13,13 @@ function Ball(x, y, r, dx, dy, color) {
 	function plot(context) {
 		context.fillStyle = this.color;
 		context.beginPath();
-		context.ellipse(this.x, this.y, this.r, this.r, 0, 0, 2 * Math.PI);
+		context.ellipse(this.position.x, this.position.y, this.r, this.r, 0, 0, 2 * Math.PI);
 		context.fill();
 	}
 
 	function tick(dt) {
-		this.x += this.dx * dt;
-		this.y += this.dy * dt;
+		this.position.x += this.velocity.x * dt;
+		this.position.y += this.velocity.y * dt;
 	}
 	
 	function checkRectangleCollision(rectangle) {
@@ -32,24 +30,24 @@ function Ball(x, y, r, dx, dy, color) {
 			y1: rectangle.y + rectangle.height - this.r
 		};
 
-		if (this.x < bounds.x0) {
-			this.dx = -this.dx;
-			this.x = 2 * bounds.x0 - this.x;
+		if (this.position.x < bounds.x0) {
+			this.velocity.x = -this.velocity.x;
+			this.position.x = 2 * bounds.x0 - this.position.x;
 		}
 
-		if (this.x > bounds.x1) {
-			this.dx = -this.dx;
-			this.x = 2 * bounds.x1 - this.x;
+		if (this.position.x > bounds.x1) {
+			this.velocity.x = -this.velocity.x;
+			this.position.x = 2 * bounds.x1 - this.position.x;
 		}
 
-		if (this.y < bounds.y0) {
-			this.dy = -this.dy;
-			this.y = 2 * bounds.y0 - this.y;
+		if (this.position.y < bounds.y0) {
+			this.velocity.y = -this.velocity.y;
+			this.position.y = 2 * bounds.y0 - this.position.y;
 		}
 
-		if (this.y > bounds.y1) {
-			this.dy = -this.dy;
-			this.y = 2 * bounds.y1 - this.y;
+		if (this.position.y > bounds.y1) {
+			this.velocity.y = -this.velocity.y;
+			this.position.y = 2 * bounds.y1 - this.position.y;
 		}		
 	}
 	
@@ -59,15 +57,11 @@ function Ball(x, y, r, dx, dy, color) {
 		}
 		
 		// obtain unit vector in direction of collision
-		var p1 = new Vector(this.x, this.y);
-		var p2 = new Vector(ball.x, ball.y);
-		var d = p1.sub(p2).unit();
+		var d = this.position.sub(ball.position).unit();
 		
 		// calculate velocity components in direction of collision
-		var v1 = new Vector(this.dx, this.dy);
-		var v2 = new Vector(ball.dx, ball.dy);
-		var v1d = v1.dot(d);
-		var v2d = v2.dot(d);
+		var v1d = this.velocity.dot(d);
+		var v2d = ball.velocity.dot(d);
 
 		// assuming same mass, switch direction of collision components
 		// then calculate velocity delta
@@ -75,16 +69,12 @@ function Ball(x, y, r, dx, dy, color) {
 		var dv2 = d.scale(v1d - v2d);
 		
 		// apply velocity deltas
-		this.dx += dv1.x;
-		this.dy += dv1.y;
-		ball.dx += dv2.x;
-		ball.dy += dv2.y;
+		this.velocity = this.velocity.add(dv1);
+		ball.velocity = ball.velocity.add(dv2);
 	}
 	
 	function isBallCollision(ball) {
-		var p1 = new Vector(this.x, this.y);
-		var p2 = new Vector(ball.x, ball.y);
-		var d = p1.sub(p2);
+		var d = this.position.sub(ball.position);
 		
 		return d.mod() <= this.r + ball.r;
 	}	
