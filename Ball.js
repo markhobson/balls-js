@@ -1,7 +1,7 @@
-function Ball(x, y, r, dx, dy, color) {
+function Ball(x, y, radius, dx, dy, color) {
 	var self = this;
 	self.position = new Vector(x, y);
-	self.r = r;
+	self.radius = radius;
 	self.velocity = new Vector(dx, dy);
 	self.color = color;
 	self.plot = plot;
@@ -13,7 +13,7 @@ function Ball(x, y, r, dx, dy, color) {
 	function plot(context) {
 		context.fillStyle = this.color;
 		context.beginPath();
-		context.ellipse(this.position.x, this.position.y, this.r, this.r, 0, 0, 2 * Math.PI);
+		context.ellipse(this.position.x, this.position.y, this.radius, this.radius, 0, 0, 2 * Math.PI);
 		context.fill();
 	}
 
@@ -24,10 +24,10 @@ function Ball(x, y, r, dx, dy, color) {
 	
 	function checkRectangleCollision(rectangle) {
 		var bounds = {
-			x0: rectangle.x + this.r,
-			y0: rectangle.y + this.r,
-			x1: rectangle.x + rectangle.width - this.r,
-			y1: rectangle.y + rectangle.height - this.r
+			x0: rectangle.x + this.radius,
+			y0: rectangle.y + this.radius,
+			x1: rectangle.x + rectangle.width - this.radius,
+			y1: rectangle.y + rectangle.height - this.radius
 		};
 
 		if (this.position.x < bounds.x0) {
@@ -76,6 +76,6 @@ function Ball(x, y, r, dx, dy, color) {
 	function isBallCollision(ball) {
 		var d = this.position.sub(ball.position);
 		
-		return d.mod() <= this.r + ball.r;
+		return d.mod() <= this.radius + ball.radius;
 	}	
 }
