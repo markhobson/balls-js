@@ -6,9 +6,27 @@
 	function randomBalls(n, canvas) {
 		var balls = new Array(n);
 		for (var i = 0; i < balls.length; i++) {
-			balls[i] = randomBall(canvas);
+			balls[i] = randomNonIntersectingBall(canvas, balls);
 		}
 		return balls;
+	}
+	
+	function randomNonIntersectingBall(canvas, balls) {
+		var ball;
+		do {
+			ball = randomBall(canvas);
+		}
+		while (intersecting(ball, balls));
+		return ball;
+	}
+	
+	function intersecting(ball, balls) {
+		for (var i = 0; i < balls.length && balls[i] !== undefined; i++) {
+			if (ball.isBallCollision(balls[i])) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	function randomBall(canvas) {
