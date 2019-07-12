@@ -1,6 +1,6 @@
 # balls.js
 
-Bouncy balls
+Playing around with 2D rigid body physics. Balls with elastic collisions straight in your browser.
 
 ## To do
 
