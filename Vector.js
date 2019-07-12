@@ -30,6 +30,7 @@ function Vector(x, y) {
 	}
 	
 	function dot(v) {
+		v = v || this;
 		return this.x * v.x + this.y * v.y;
 	}
 }

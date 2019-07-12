@@ -10,6 +10,7 @@ function Ball(x, y, radius, dx, dy, color) {
 	self.resolveRectangleCollision = resolveRectangleCollision;
 	self.resolveBallCollision = resolveBallCollision;
 	self.isBallColliding = isBallColliding;
+	self.resolveBallIntersection = resolveBallIntersection;
 	
 	function mass(radius, density) {
 		var volume = 4 * Math.PI * radius * radius * radius / 3;
@@ -62,6 +63,8 @@ function Ball(x, y, radius, dx, dy, color) {
 			return;
 		}
 		
+		this.resolveBallIntersection(ball);
+		
 		// obtain unit vector in direction of collision
 		var d = this.position.sub(ball.position).unit();
 		
@@ -87,5 +90,24 @@ function Ball(x, y, radius, dx, dy, color) {
 		var d = this.position.sub(ball.position);
 		
 		return d.mod() <= this.radius + ball.radius;
-	}	
+	}
+	
+	function resolveBallIntersection(ball) {
+		// solving |p2 - p1| = r1 + r2 for t
+		var dp = this.position.sub(ball.position);
+		var dv = this.velocity.sub(ball.velocity);
+		var r = this.radius + ball.radius;
+		
+		// gives quadratic
+		var a = dv.dot();
+		var b = 2 * dp.dot(dv);
+		var c = dp.dot() - r * r;
+		
+		// with earliest t
+		var t = (-b - Math.sqrt(b * b - 4 * a * c)) / (2 * a);
+		
+		// backtrack to point of intersection
+		this.tick(t);
+		ball.tick(t);
+	}
 }
