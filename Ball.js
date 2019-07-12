@@ -2,6 +2,7 @@ function Ball(x, y, radius, dx, dy, color) {
 	var self = this;
 	self.position = new Vector(x, y);
 	self.radius = radius;
+	self.mass = mass(radius, 1);
 	self.velocity = new Vector(dx, dy);
 	self.color = color;
 	self.plot = plot;
@@ -9,6 +10,11 @@ function Ball(x, y, radius, dx, dy, color) {
 	self.checkRectangleCollision = checkRectangleCollision;
 	self.checkBallCollision = checkBallCollision;
 	self.isBallCollision = isBallCollision;
+	
+	function mass(radius, density) {
+		var volume = 4 * Math.PI * radius * radius * radius / 3;
+		return volume * density;
+	}
 
 	function plot(context) {
 		context.fillStyle = this.color;
@@ -60,17 +66,21 @@ function Ball(x, y, radius, dx, dy, color) {
 		var d = this.position.sub(ball.position).unit();
 		
 		// calculate velocity components in direction of collision
-		var v1d = this.velocity.dot(d);
-		var v2d = ball.velocity.dot(d);
+		// reduces problem to one dimension
+		var u1 = this.velocity.dot(d);
+		var u2 = ball.velocity.dot(d);
 
-		// assuming same mass, switch direction of collision components
-		// then calculate velocity delta
-		var dv1 = d.scale(v2d - v1d);
-		var dv2 = d.scale(v1d - v2d);
+		// calculate new velocity components in direction of collision
+		// using conservation of momentum and conservation of kenetic energy
+		var m1 = this.mass;
+		var m2 = ball.mass;
+		var m = m1 + m2;
+		var v1 = (m1 - m2) * u1 / m + (2 * m2 * u2) / m;
+		var v2 = (2 * m1 * u1) / m + (m2 - m1) * u2 / m;
 		
-		// apply velocity deltas
-		this.velocity = this.velocity.add(dv1);
-		ball.velocity = ball.velocity.add(dv2);
+		// apply change in velocity
+		this.velocity = this.velocity.add(d.scale(v1 - u1));
+		ball.velocity = ball.velocity.add(d.scale(v2 - u2));
 	}
 	
 	function isBallCollision(ball) {
