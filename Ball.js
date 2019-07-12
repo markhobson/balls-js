@@ -9,7 +9,7 @@ function Ball(x, y, radius, dx, dy, color) {
 	self.tick = tick;
 	self.resolveRectangleCollision = resolveRectangleCollision;
 	self.resolveBallCollision = resolveBallCollision;
-	self.isBallCollision = isBallCollision;
+	self.isBallColliding = isBallColliding;
 	
 	function mass(radius, density) {
 		var volume = 4 * Math.PI * radius * radius * radius / 3;
@@ -58,7 +58,7 @@ function Ball(x, y, radius, dx, dy, color) {
 	}
 	
 	function resolveBallCollision(ball) {
-		if (!this.isBallCollision(ball)) {
+		if (!this.isBallColliding(ball)) {
 			return;
 		}
 		
@@ -83,7 +83,7 @@ function Ball(x, y, radius, dx, dy, color) {
 		ball.velocity = ball.velocity.add(d.scale(v2 - u2));
 	}
 	
-	function isBallCollision(ball) {
+	function isBallColliding(ball) {
 		var d = this.position.sub(ball.position);
 		
 		return d.mod() <= this.radius + ball.radius;

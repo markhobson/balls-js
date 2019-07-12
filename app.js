@@ -22,7 +22,7 @@
 	
 	function intersecting(ball, balls) {
 		for (var i = 0; i < balls.length && balls[i] !== undefined; i++) {
-			if (ball.isBallCollision(balls[i])) {
+			if (ball.isBallColliding(balls[i])) {
 				return true;
 			}
 		}
