@@ -7,8 +7,8 @@ function Ball(x, y, radius, dx, dy, color) {
 	self.color = color;
 	self.plot = plot;
 	self.tick = tick;
-	self.checkRectangleCollision = checkRectangleCollision;
-	self.checkBallCollision = checkBallCollision;
+	self.resolveRectangleCollision = resolveRectangleCollision;
+	self.resolveBallCollision = resolveBallCollision;
 	self.isBallCollision = isBallCollision;
 	
 	function mass(radius, density) {
@@ -28,7 +28,7 @@ function Ball(x, y, radius, dx, dy, color) {
 		this.position.y += this.velocity.y * dt;
 	}
 	
-	function checkRectangleCollision(rectangle) {
+	function resolveRectangleCollision(rectangle) {
 		var bounds = {
 			x0: rectangle.x + this.radius,
 			y0: rectangle.y + this.radius,
@@ -57,7 +57,7 @@ function Ball(x, y, radius, dx, dy, color) {
 		}		
 	}
 	
-	function checkBallCollision(ball) {
+	function resolveBallCollision(ball) {
 		if (!this.isBallCollision(ball)) {
 			return;
 		}

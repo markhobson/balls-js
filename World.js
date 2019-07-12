@@ -8,7 +8,7 @@ function World(canvas, objects) {
 	self.resize = resize;
 	self.plot = plot;
 	self.tickObjects = tickObjects;
-	self.checkCollisions = checkCollisions;
+	self.resolveCollisions = resolveCollisions;
 
 	function run() {
 		requestAnimationFrame(this.tick.bind(this));
@@ -21,7 +21,7 @@ function World(canvas, objects) {
 		this.resize();
 		this.plot();
 		this.tickObjects(dt);
-		this.checkCollisions();
+		this.resolveCollisions();
 		
 		this.run();
 	}
@@ -50,16 +50,16 @@ function World(canvas, objects) {
 		});
 	}
 	
-	function checkCollisions() {
+	function resolveCollisions() {
 		var canvas = this.context.canvas;
 		var rectangle = {x: 0, y: 0, width: canvas.width, height: canvas.height};
 		
 		for (var i = 0; i < objects.length; i++) {
 			var object = objects[i];
-			object.checkRectangleCollision(rectangle);
+			object.resolveRectangleCollision(rectangle);
 
 			for (var j = i + 1; j < objects.length; j++) {
-				object.checkBallCollision(objects[j]);
+				object.resolveBallCollision(objects[j]);
 			}
 		}
 	}
