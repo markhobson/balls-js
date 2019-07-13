@@ -63,7 +63,7 @@ function Ball(x, y, radius, dx, dy, color) {
 			return;
 		}
 		
-		this.resolveBallIntersection(ball);
+		var dt = this.resolveBallIntersection(ball);
 		
 		// obtain unit vector in direction of collision
 		var d = this.position.sub(ball.position).unit();
@@ -84,6 +84,10 @@ function Ball(x, y, radius, dx, dy, color) {
 		// apply change in velocity
 		this.velocity = this.velocity.add(d.scale(v1 - u1));
 		ball.velocity = ball.velocity.add(d.scale(v2 - u2));
+		
+		// forward by amount backtracked when resolving intersection
+		this.tick(-dt);
+		ball.tick(-dt);
 	}
 	
 	function isBallColliding(ball) {
@@ -109,5 +113,7 @@ function Ball(x, y, radius, dx, dy, color) {
 		// backtrack to point of intersection
 		this.tick(t);
 		ball.tick(t);
+		
+		return t;
 	}
 }
