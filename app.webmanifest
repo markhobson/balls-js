@@ -3,7 +3,7 @@
 	"icons": [
 		{
 			"src": "app.png",
-			"sizes": "360x360",
+			"sizes": "192x192",
 			"type": "image/png"
 		}
 	],
