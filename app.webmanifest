@@ -1,4 +1,5 @@
 {
 	"name": "Balls.js",
-	"display": "fullscreen"
+	"display": "fullscreen",
+	"start_url": "index.html"
 }
