@@ -5,6 +5,7 @@ function Ball(x, y, radius, dx, dy, color) {
 	self.mass = mass(radius, 1);
 	self.velocity = new Vector(dx, dy);
 	self.color = color;
+	self.bounds = bounds;
 	self.plot = plot;
 	self.tick = tick;
 	self.resolveRectangleCollision = resolveRectangleCollision;
@@ -16,6 +17,15 @@ function Ball(x, y, radius, dx, dy, color) {
 	function mass(radius, density) {
 		var volume = 4 * Math.PI * radius * radius * radius / 3;
 		return volume * density;
+	}
+	
+	function bounds() {
+		return {
+			x0: this.position.x - this.radius,
+			y0: this.position.y - this.radius,
+			x1: this.position.x + this.radius,
+			y1: this.position.y + this.radius
+		};
 	}
 
 	function plot(context) {
@@ -31,31 +41,33 @@ function Ball(x, y, radius, dx, dy, color) {
 	}
 	
 	function resolveRectangleCollision(rectangle) {
-		var bounds = {
-			x0: rectangle.x + this.radius,
-			y0: rectangle.y + this.radius,
-			x1: rectangle.x + rectangle.width - this.radius,
-			y1: rectangle.y + rectangle.height - this.radius
+		var bounds = this.bounds();
+		
+		var rectangleBounds = {
+			x0: rectangle.x,
+			y0: rectangle.y,
+			x1: rectangle.x + rectangle.width,
+			y1: rectangle.y + rectangle.height
 		};
 
-		if (this.position.x < bounds.x0) {
+		if (bounds.x0 < rectangleBounds.x0) {
 			this.velocity.x = -this.velocity.x;
-			this.position.x = 2 * bounds.x0 - this.position.x;
+			this.position.x += rectangleBounds.x0 - bounds.x0;
 		}
 
-		if (this.position.x > bounds.x1) {
+		if (bounds.x1 > rectangleBounds.x1) {
 			this.velocity.x = -this.velocity.x;
-			this.position.x = 2 * bounds.x1 - this.position.x;
+			this.position.x += rectangleBounds.x1 - bounds.x1;
 		}
 
-		if (this.position.y < bounds.y0) {
+		if (bounds.y0 < rectangleBounds.y0) {
 			this.velocity.y = -this.velocity.y;
-			this.position.y = 2 * bounds.y0 - this.position.y;
+			this.position.y += rectangleBounds.y0 - bounds.y0;
 		}
 
-		if (this.position.y > bounds.y1) {
+		if (bounds.y1 > rectangleBounds.y1) {
 			this.velocity.y = -this.velocity.y;
-			this.position.y = 2 * bounds.y1 - this.position.y;
+			this.position.y += rectangleBounds.y1 - bounds.y1;
 		}		
 	}
 	
