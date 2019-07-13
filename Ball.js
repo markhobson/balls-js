@@ -9,6 +9,7 @@ function Ball(x, y, radius, dx, dy, color) {
 	self.plot = plot;
 	self.tick = tick;
 	self.resolveRectangleCollision = resolveRectangleCollision;
+	self.isColliding = isColliding;
 	self.resolveBallCollision = resolveBallCollision;
 	self.isBallColliding = isBallColliding;
 	self.resolveBallIntersection = resolveBallIntersection;
@@ -71,6 +72,15 @@ function Ball(x, y, radius, dx, dy, color) {
 		}		
 	}
 	
+	function isColliding(objectBounds) {
+		var bounds = this.bounds();
+		
+		return bounds.x0 < objectBounds.x1
+			&& bounds.x1 > objectBounds.x0
+			&& bounds.y0 < objectBounds.y1
+			&& bounds.y1 > objectBounds.y0;
+	}
+	
 	function resolveBallCollision(ball) {
 		if (!this.isBallColliding(ball)) {
 			return;
@@ -88,6 +98,10 @@ function Ball(x, y, radius, dx, dy, color) {
 	}
 	
 	function isBallColliding(ball) {
+		if (!this.isColliding(ball.bounds())) {
+			return false;
+		}
+		
 		var d = this.position.sub(ball.position);
 		
 		return d.mod() <= this.radius + ball.radius;
