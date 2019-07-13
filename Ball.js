@@ -11,6 +11,7 @@ function Ball(x, y, radius, dx, dy, color) {
 	self.resolveBallCollision = resolveBallCollision;
 	self.isBallColliding = isBallColliding;
 	self.resolveBallIntersection = resolveBallIntersection;
+	self.resolveBallCollisionVelocities = resolveBallCollisionVelocities;
 	
 	function mass(radius, density) {
 		var volume = 4 * Math.PI * radius * radius * radius / 3;
@@ -63,27 +64,11 @@ function Ball(x, y, radius, dx, dy, color) {
 			return;
 		}
 		
+		// backtrack to point of collision
 		var dt = this.resolveBallIntersection(ball);
-		
-		// obtain unit vector in direction of collision
-		var d = this.position.sub(ball.position).unit();
-		
-		// calculate velocity components in direction of collision
-		// reduces problem to one dimension
-		var u1 = this.velocity.dot(d);
-		var u2 = ball.velocity.dot(d);
 
-		// calculate new velocity components in direction of collision
-		// using conservation of momentum and conservation of kenetic energy
-		var m1 = this.mass;
-		var m2 = ball.mass;
-		var m = m1 + m2;
-		var v1 = (m1 - m2) * u1 / m + (2 * m2 * u2) / m;
-		var v2 = (2 * m1 * u1) / m + (m2 - m1) * u2 / m;
-		
-		// apply change in velocity
-		this.velocity = this.velocity.add(d.scale(v1 - u1));
-		ball.velocity = ball.velocity.add(d.scale(v2 - u2));
+		// calculate new velocities after collision
+		this.resolveBallCollisionVelocities(ball);
 		
 		// forward by amount backtracked when resolving intersection
 		this.tick(-dt);
@@ -115,5 +100,27 @@ function Ball(x, y, radius, dx, dy, color) {
 		ball.tick(t);
 		
 		return t;
+	}
+	
+	function resolveBallCollisionVelocities(ball) {
+		// obtain unit vector in direction of collision
+		var d = this.position.sub(ball.position).unit();
+		
+		// calculate velocity components in direction of collision
+		// reduces problem to one dimension
+		var u1 = this.velocity.dot(d);
+		var u2 = ball.velocity.dot(d);
+
+		// calculate new velocity components in direction of collision
+		// using conservation of momentum and conservation of kenetic energy
+		var m1 = this.mass;
+		var m2 = ball.mass;
+		var m = m1 + m2;
+		var v1 = (m1 - m2) * u1 / m + (2 * m2 * u2) / m;
+		var v2 = (2 * m1 * u1) / m + (m2 - m1) * u2 / m;
+		
+		// apply change in velocity
+		this.velocity = this.velocity.add(d.scale(v1 - u1));
+		ball.velocity = ball.velocity.add(d.scale(v2 - u2));		
 	}
 }
