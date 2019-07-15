@@ -1,7 +1,11 @@
 (function (World, Ball) {
-	var canvas = document.getElementById('app');
-	var objects = randomBalls(10, canvas.width, canvas.height);
-	new World(canvas, objects).run();
+	window.onload = run;
+	
+	function run() {
+		var canvas = document.getElementById('app');
+		var objects = randomBalls(10, canvas.clientWidth, canvas.clientHeight);
+		new World(canvas, objects).run();		
+	}
 
 	function randomBalls(n, width, height) {
 		var balls = new Array(n);
