@@ -34,3 +34,5 @@ function Vector(x, y) {
 		return this.x * v.x + this.y * v.y;
 	}
 }
+
+export default Vector;

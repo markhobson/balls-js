@@ -1,3 +1,5 @@
+import Vector from './Vector.js';
+
 function Ball(x, y, radius, dx, dy, color) {
 	var self = this;
 	self.position = new Vector(x, y);
@@ -150,3 +152,5 @@ function Ball(x, y, radius, dx, dy, color) {
 		ball.velocity = ball.velocity.add(d.scale(v2 - u2));		
 	}
 }
+
+export default Ball;

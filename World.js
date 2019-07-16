@@ -64,3 +64,5 @@ function World(canvas, objects) {
 		}
 	}
 }
+
+export default World;
